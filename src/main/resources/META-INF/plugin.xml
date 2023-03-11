@@ -1,0 +1,39 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.example.KSPlugin2</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>KSPlugin2</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="newskys1@gmail.com" url="https://www.yourcompany.com">Kyusik Shin</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description>
+        <![CDATA[
+      Illustrates various basic Editor APIs. Requires at least project to be open, and a file open in the editor
+      to see the menu items this plugin adds to the editor popup menu.<br>Mouse over each of this plugin's menu items
+      to see hints in the lower left corner of the IDE.
+    ]]>
+    </description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.java</depends>
+    <depends>com.intellij.modules.platform</depends>
+
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <intentionAction>
+            <!-- add "<language>JAVA</language>" when targeting 2022.3 and later only -->
+            <className>org.intellij.sdk.intention.ConditionalOperatorConverter</className>
+            <category>SDK intentions</category>
+        </intentionAction>
+    </extensions>
+</idea-plugin>
