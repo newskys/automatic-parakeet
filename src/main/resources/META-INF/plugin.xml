@@ -23,17 +23,53 @@
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
-    <depends>com.intellij.java</depends>
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <intentionAction >
+            <className>k.shin.intellij.Intention</className>
+        </intentionAction>
+    </extensions>
+
+<!--    <actions>-->
+<!--        <action id="EditorBasics.EditorIllustrationAction"-->
+<!--                class="org.intellij.sdk.editor.EditorIllustrationAction"-->
+<!--                text="Editor Replace Text"-->
+<!--                description="Replaces selected text with 'Replacement'."-->
+<!--                icon="SdkIcons.Sdk_default_icon">-->
+<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
+<!--        </action>-->
+<!--        <action id="EditorBasics.EditorHandlerIllustration"-->
+<!--                class="org.intellij.sdk.editor.EditorHandlerIllustration"-->
+<!--                text="Editor Add Caret"-->
+<!--                description="Adds a second caret below the existing one."-->
+<!--                icon="SdkIcons.Sdk_default_icon">-->
+<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
+<!--        </action>-->
+<!--        &lt;!&ndash; Place this entry first in the popup menu; it's always enabled if a project and editor are open &ndash;&gt;-->
+<!--        <action id="EditorBasics.LogicalPositionIllustration"-->
+<!--                class="org.intellij.sdk.editor.EditorAreaIllustration"-->
+<!--                text="Caret Position"-->
+<!--                description="Reports information about the caret position."-->
+<!--                icon="SdkIcons.Sdk_default_icon">-->
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="control alt G"/>-->
+<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
+<!--        </action>-->
+<!--    </actions>-->
+
+<!--    <extensions defaultExtensionNs="com.intellij">-->
+<!--        <typedHandler implementation="org.intellij.sdk.editor.MyTypedHandler"/>-->
+<!--    </extensions>-->
 
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
-    <extensions defaultExtensionNs="com.intellij">
-        <intentionAction>
-            <!-- add "<language>JAVA</language>" when targeting 2022.3 and later only -->
-            <className>org.intellij.sdk.intention.ConditionalOperatorConverter</className>
-            <category>SDK intentions</category>
-        </intentionAction>
-    </extensions>
+<!--    <extensions defaultExtensionNs="com.intellij">-->
+<!--        <intentionAction>-->
+<!--            &lt;!&ndash; add "<language>JAVA</language>" when targeting 2022.3 and later only &ndash;&gt;-->
+<!--            <className>org.intellij.sdk.intention.ConditionalOperatorConverter</className>-->
+<!--            <category>SDK intentions</category>-->
+<!--        </intentionAction>-->
+<!--    </extensions>-->
 </idea-plugin>

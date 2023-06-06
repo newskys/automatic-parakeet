@@ -1,43 +1,39 @@
+// Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
+
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.12.0"
+    id("org.jetbrains.intellij") version "1.13.2"
 }
 
-group = "com.example"
-version = "1.0-SNAPSHOT"
+group = "org.intellij.sdk"
+version = "2.0.0"
 
 repositories {
     mavenCentral()
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
+dependencies {
+    testImplementation("junit:junit:4.13.2")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version.set("2022.1.4")
-    type.set("IC") // Target IDE Platform
-
-    plugins.set(listOf(/* Plugin Dependencies */))
+    plugins.set(listOf("com.intellij.java"))
 }
 
 tasks {
-    // Set the JVM compatibility versions
-    withType<JavaCompile> {
-        sourceCompatibility = "18"
-        targetCompatibility = "18"
+    buildSearchableOptions {
+        enabled = false
     }
 
     patchPluginXml {
+        version.set("${project.version}")
         sinceBuild.set("221")
-        untilBuild.set("231.*")
-    }
-
-    signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
-    }
-
-    publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
+        untilBuild.set("223.*")
     }
 }
