@@ -1,9 +1,6 @@
 package k.shin.intellij;//package k.shin.renamer.renamer1;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInspection.util.IntentionFamilyName;
 import com.intellij.codeInspection.util.IntentionName;
@@ -21,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 
 public class Intention implements IntentionAction {
@@ -48,42 +47,54 @@ public class Intention implements IntentionAction {
         if (position == null) {
             return false;
         }
-//
-//        // Check if the function or variable name matches a key in the JSON preset.
+
         String key = position.getText();
-
-        // get user's json file
-
-        // Get the path to the json file.
-//        File filePath = new File(project.getBasePath() + "/my-file.json");
-
-        // Read the json file.
         ObjectMapper mapper = new ObjectMapper();
         try {
             Map<String, String> object = mapper.readValue(FileUtil.loadFile(new File(project.getBasePath() + "/preset.json")), Map.class);
-            return object.get(key) != null;
+            Set<String> entry = object.keySet();
+            long number = entry.stream().filter(entryKey -> key.contains(entryKey)).count();
+            return number > 0;
         } catch (IOException e) {
             return false;
         }
-
-//        JsonObject preset = JsonParser.parseString(System.getProperty("preset.json")).getAsJsonObject();
-//        if (!preset.has(key)) {
-//            return false;
-//        }
-
     }
 
     @Override
     public void invoke(@NotNull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
         PsiElement position = PsiTreeUtil.findFirstParent(file.findElementAt(editor.getCaretModel().getOffset()), false, element -> element instanceof PsiVariable || element instanceof PsiIdentifier);
         String key = position.getText();
-        String value = "wow";
-        editor.getDocument().replaceString(position.getTextOffset(), position.getTextOffset() + position.getTextLength(), value);
+
+//        String value = null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Map<String, String> object = mapper.readValue(FileUtil.loadFile(new File(project.getBasePath() + "/preset.json")), Map.class);
+            Set<String> entry = object.keySet();
+            Optional<String> targetKey = entry.stream().filter(entryKey -> key.contains(entryKey)).findFirst();
+            if (targetKey == null || targetKey.isEmpty()) return;
+            String value = object.get(targetKey.get());
+            editor.getDocument().replaceString(position.getTextOffset(), position.getTextOffset() + position.getTextLength(), key.replace(targetKey.get(), value));
+        } catch (IOException e) {
+            return;
+        }
+
+
+    // Get the text to replace and the replacement text.
+//    String textToReplace = "old text";
+//    String replacementText = "new text";
+//
+//    // Get the text range of the text to replace.
+//    PsiDocumentManager documentManager = PsiDocumentManager.getInstance(project);
+//    int startOffset = documentManager.getOffset(editor, file);
+//    int endOffset = startOffset + textToReplace.length();
+//
+//    // Replace the text.
+//    file.replace(startOffset, endOffset, replacementText);
     }
 
     @Override
     public boolean startInWriteAction() {
-        return false;
+        return true;
     }
 
 //    @Override
