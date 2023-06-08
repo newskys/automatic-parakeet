@@ -1,4 +1,4 @@
-package k.shin.intellij;//package k.shin.renamer.renamer1;
+package k.shin.intellij;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.codeInsight.intention.IntentionAction;
@@ -23,16 +23,9 @@ import java.util.Set;
 
 
 public class Intention implements IntentionAction {
-    private static final String DISPLAY_NAME = "Replace with Preset Value";
-    private static final String SHORT_DESCRIPTION = "Replaces the value of a function or variable name with the corresponding value from a JSON preset if the function or variable name matches the key in the preset";
-
-//    public Intention() {
-//        super(DISPLAY_NAME, SHORT_DESCRIPTION, null);
-//    }
-
     @Override
     public @IntentionName @NotNull String getText() {
-        return "Replace with Preset Value";
+        return "Replace with preset value";
     }
 
     @Override
@@ -42,18 +35,20 @@ public class Intention implements IntentionAction {
 
     @Override
     public boolean isAvailable(Project project, Editor editor, PsiFile file) {
-        // Check if the cursor is on a function or variable name.
         PsiElement position = PsiTreeUtil.findFirstParent(file.findElementAt(editor.getCaretModel().getOffset()), false, element -> element instanceof PsiVariable || element instanceof PsiIdentifier);
         if (position == null) {
             return false;
         }
 
         String key = position.getText();
+        System.out.println("key: " + key);
         ObjectMapper mapper = new ObjectMapper();
         try {
             Map<String, String> object = mapper.readValue(FileUtil.loadFile(new File(project.getBasePath() + "/preset.json")), Map.class);
             Set<String> entry = object.keySet();
+            System.out.println("entry: " + entry);
             long number = entry.stream().filter(entryKey -> key.contains(entryKey)).count();
+            System.out.println("number" + number);
             return number > 0;
         } catch (IOException e) {
             return false;
@@ -65,7 +60,6 @@ public class Intention implements IntentionAction {
         PsiElement position = PsiTreeUtil.findFirstParent(file.findElementAt(editor.getCaretModel().getOffset()), false, element -> element instanceof PsiVariable || element instanceof PsiIdentifier);
         String key = position.getText();
 
-//        String value = null;
         ObjectMapper mapper = new ObjectMapper();
         try {
             Map<String, String> object = mapper.readValue(FileUtil.loadFile(new File(project.getBasePath() + "/preset.json")), Map.class);
@@ -77,39 +71,11 @@ public class Intention implements IntentionAction {
         } catch (IOException e) {
             return;
         }
-
-
-    // Get the text to replace and the replacement text.
-//    String textToReplace = "old text";
-//    String replacementText = "new text";
-//
-//    // Get the text range of the text to replace.
-//    PsiDocumentManager documentManager = PsiDocumentManager.getInstance(project);
-//    int startOffset = documentManager.getOffset(editor, file);
-//    int endOffset = startOffset + textToReplace.length();
-//
-//    // Replace the text.
-//    file.replace(startOffset, endOffset, replacementText);
     }
 
     @Override
     public boolean startInWriteAction() {
         return true;
     }
-
-//    @Override
-//    public void actionPerformed(Project project, Editor editor, PsiFile file) {
-//        // Get the function or variable name.
-//        PsiIdentifier identifier = PsiTreeUtil.findTokenInRange(file, editor.getCaretModel().getOffset(), editor.getCaretModel().getOffset(), PsiIdentifier.class);
-//        String key = identifier.getText();
-//
-//        // Get the value from the JSON preset.
-//        JsonObject preset = JsonParser.parseString(System.getProperty("preset.json")).getAsJsonObject();
-//        String value = preset.get(key).getAsString();
-//
-//        // Replace the function or variable name with the value from the JSON preset.
-//        editor.getDocument().replaceString(identifier.getTextOffset(), identifier.getTextOffset() + identifier.getTextLength(), value);
-//    }
-
 }
 
