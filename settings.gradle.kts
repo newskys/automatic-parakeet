@@ -1,1 +1,1 @@
-rootProject.name = "KSPlugin2"
+rootProject.name = "DomainDoma"

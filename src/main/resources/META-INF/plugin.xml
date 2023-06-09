@@ -1,23 +1,21 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.example.KSPlugin2</id>
+    <id>com.domaindoma.kyu</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>KSPlugin2</name>
+    <name>DomainDoma</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="newskys1@gmail.com" url="https://www.yourcompany.com">Kyusik Shin</vendor>
+    <vendor email="newskys1@gmail.com" url="https://github.com/newskys">Kyusik Shin</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description>
         <![CDATA[
-      Illustrates various basic Editor APIs. Requires at least project to be open, and a file open in the editor
-      to see the menu items this plugin adds to the editor popup menu.<br>Mouse over each of this plugin's menu items
-      to see hints in the lower left corner of the IDE.
+      Provides converting to a dictionary name predefined by the user.
     ]]>
     </description>
 
@@ -27,50 +25,9 @@
     <depends>com.intellij.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <annotator language="JAVA" implementationClass="k.shin.intellij.DictionaryAnnotator"/>
+        <annotator language="JAVA" implementationClass="k.shin.domaindoma.DictionaryAnnotator"/>
         <intentionAction >
-            <className>k.shin.intellij.Intention</className>
+            <className>k.shin.domaindoma.Intention</className>
         </intentionAction>
     </extensions>
-
-<!--    <actions>-->
-<!--        <action id="EditorBasics.EditorIllustrationAction"-->
-<!--                class="org.intellij.sdk.editor.EditorIllustrationAction"-->
-<!--                text="Editor Replace Text"-->
-<!--                description="Replaces selected text with 'Replacement'."-->
-<!--                icon="SdkIcons.Sdk_default_icon">-->
-<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
-<!--        </action>-->
-<!--        <action id="EditorBasics.EditorHandlerIllustration"-->
-<!--                class="org.intellij.sdk.editor.EditorHandlerIllustration"-->
-<!--                text="Editor Add Caret"-->
-<!--                description="Adds a second caret below the existing one."-->
-<!--                icon="SdkIcons.Sdk_default_icon">-->
-<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
-<!--        </action>-->
-<!--        &lt;!&ndash; Place this entry first in the popup menu; it's always enabled if a project and editor are open &ndash;&gt;-->
-<!--        <action id="EditorBasics.LogicalPositionIllustration"-->
-<!--                class="org.intellij.sdk.editor.EditorAreaIllustration"-->
-<!--                text="Caret Position"-->
-<!--                description="Reports information about the caret position."-->
-<!--                icon="SdkIcons.Sdk_default_icon">-->
-<!--            <keyboard-shortcut keymap="$default" first-keystroke="control alt G"/>-->
-<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
-<!--        </action>-->
-<!--    </actions>-->
-
-<!--    <extensions defaultExtensionNs="com.intellij">-->
-<!--        <typedHandler implementation="org.intellij.sdk.editor.MyTypedHandler"/>-->
-<!--    </extensions>-->
-
-
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
-<!--    <extensions defaultExtensionNs="com.intellij">-->
-<!--        <intentionAction>-->
-<!--            &lt;!&ndash; add "<language>JAVA</language>" when targeting 2022.3 and later only &ndash;&gt;-->
-<!--            <className>org.intellij.sdk.intention.ConditionalOperatorConverter</className>-->
-<!--            <category>SDK intentions</category>-->
-<!--        </intentionAction>-->
-<!--    </extensions>-->
 </idea-plugin>

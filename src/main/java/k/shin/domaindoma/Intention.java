@@ -1,4 +1,4 @@
-package k.shin.intellij;
+package k.shin.domaindoma;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.codeInsight.intention.IntentionAction;

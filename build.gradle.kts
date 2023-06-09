@@ -5,8 +5,8 @@ plugins {
     id("org.jetbrains.intellij") version "1.13.2"
 }
 
-group = "org.intellij.sdk"
-version = "2.0.0"
+group = "com.domaindoma.kyu"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -34,6 +34,6 @@ tasks {
     patchPluginXml {
         version.set("${project.version}")
         sinceBuild.set("221")
-        untilBuild.set("223.*")
+//        untilBuild.set("223.*")
     }
 }
