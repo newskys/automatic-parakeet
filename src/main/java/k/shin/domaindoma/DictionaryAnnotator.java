@@ -22,6 +22,7 @@ public class DictionaryAnnotator implements Annotator {
 
   @Override
   public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
+    System.out.println("element: " + element);
     if (!(element instanceof PsiIdentifier)) {
       return;
     }

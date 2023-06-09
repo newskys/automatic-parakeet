@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.domaindoma.kyu"
-version = "0.1.0"
+version = "0.1.2"
 
 repositories {
     mavenCentral()
@@ -23,7 +23,8 @@ java {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version.set("2022.1.4")
-    plugins.set(listOf("com.intellij.java"))
+    type.set("IU")
+    plugins.set(listOf("com.intellij.java", "JavaScript"))
 }
 
 tasks {
@@ -34,6 +35,6 @@ tasks {
     patchPluginXml {
         version.set("${project.version}")
         sinceBuild.set("221")
-//        untilBuild.set("223.*")
+        untilBuild.set("232.*")
     }
 }
