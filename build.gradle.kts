@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.intellij") version "1.13.2"
 }
 
-group = "com.domaindoma.kyu"
+group = "com.sajeon.kyu"
 version = "0.1.2"
 
 repositories {

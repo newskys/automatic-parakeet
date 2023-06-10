@@ -1,10 +1,10 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.domaindoma.kyu</id>
+    <id>com.sajeon.kyu</id>
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>DomainDoma</name>
+    <name>Sajeon</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="newskys1@gmail.com" url="https://github.com/newskys">Kyusik Shin</vendor>
@@ -14,7 +14,11 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description>
         <![CDATA[
-      Provides converting to a dictionary name predefined by the user.
+        Converts a special dictionary-defined term to another value.
+        It can be used when there are other teams or collaborators in non-English-speaking countries, and when matching English names of specific terms is required.
+        A dictionary "preset.json" can be managed at the root of a project with another strategy for each user.
+        For example, if the term "학력평가" in Korean should be used as "AbilityExam" within the code, this plugin fits.
+        This supports Kotlin, Java,
     ]]>
     </description>
 
@@ -27,11 +31,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <intentionAction>
-            <className>k.shin.domaindoma.ReplaceIntention</className>
+            <className>com.sajeon.kyu.ReplaceIntention</className>
         </intentionAction>
-        <annotator language="JAVA" implementationClass="k.shin.domaindoma.JavaAnnotator"/>
-        <annotator language="JavaScript" implementationClass="k.shin.domaindoma.JSAnnotator" />
-        <annotator language="kotlin" implementationClass="k.shin.domaindoma.KtAnnotator" />
+        <annotator language="JAVA" implementationClass="com.sajeon.kyu.JavaAnnotator"/>
+        <annotator language="JavaScript" implementationClass="com.sajeon.kyu.JSAnnotator" />
+        <annotator language="kotlin" implementationClass="com.sajeon.kyu.KtAnnotator" />
 
     </extensions>
 </idea-plugin>

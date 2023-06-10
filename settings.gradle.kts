@@ -1,1 +1,1 @@
-rootProject.name = "DomainDoma"
+rootProject.name = "Sajeon"

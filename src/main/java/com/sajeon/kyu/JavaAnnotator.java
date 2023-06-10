@@ -1,7 +1,6 @@
-package k.shin.domaindoma;
+package com.sajeon.kyu;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.intellij.codeInsight.intention.HighPriorityAction;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
@@ -9,8 +8,6 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiIdentifier;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.intellij.psi.impl.source.tree.PsiWhiteSpaceImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -19,13 +16,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public class KtAnnotator implements Annotator {
+public class JavaAnnotator implements Annotator {
 
   @Override
   public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
-//    System.out.println("annotate: " +  element.getText());
-//    System.out.println("annotateEl: " +  element.getClass());
-    if (!(element instanceof LeafPsiElement)) {
+    if (!(element instanceof PsiIdentifier)) {
       return;
     }
 
@@ -51,8 +46,8 @@ public class KtAnnotator implements Annotator {
 
     if (startIndex == -1) return;
 
-      TextRange prefixRange = TextRange.from(element.getTextRange().getStartOffset() + startIndex, targetKey.length());
-      holder.newSilentAnnotation(HighlightSeverity.WARNING).range(prefixRange).create();
+    TextRange prefixRange = TextRange.from(element.getTextRange().getStartOffset() + startIndex, targetKey.length());
+    holder.newSilentAnnotation(HighlightSeverity.WARNING).range(prefixRange).create();
   }
 
 }

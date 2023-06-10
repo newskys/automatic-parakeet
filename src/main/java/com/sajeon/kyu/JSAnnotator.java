@@ -1,15 +1,13 @@
-package k.shin.domaindoma;
+package com.sajeon.kyu;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.intellij.lang.annotation.HighlightSeverity;
+import com.intellij.lang.javascript.psi.JSFile;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
-import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiIdentifier;
-import com.siyeh.ipp.base.Intention;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,19 +15,28 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public class JavaAnnotator implements Annotator {
+public class JSAnnotator implements Annotator {
 
   @Override
-  public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
-    if (!(element instanceof PsiIdentifier)) {
+  public void annotate(PsiElement element, AnnotationHolder holder) {
+    //    System.out.println("annotate: " +  element.getText());
+//    System.out.println("annotateEl: " +  element.getClass());
+    if (!(element instanceof JSFile)) {
       return;
+      // Annotate all functions in the file.
+//      for (JSFunction function : ((JSFile) element).getgetFunctions()) {
+//        holder.createInfoAnnotation(function, "This is a function.");
+//      }
+//
+//      // Annotate all variables in the file.
+//      for (JSVariable variable : ((JSFile) element).getVariables()) {
+//        holder.createInfoAnnotation(variable, "This is a variable.");
+//      }
     }
 
     ObjectMapper mapper = new ObjectMapper();
     String key = element.getText();
     String targetKey;
-
-    System.out.println("annotate: " + key);
 
     try {
       Map<String, String> object = mapper.readValue(FileUtil.loadFile(new File(element.getProject().getBasePath() + "/preset.json")), Map.class);
@@ -47,8 +54,7 @@ public class JavaAnnotator implements Annotator {
 
     if (startIndex == -1) return;
 
-      TextRange prefixRange = TextRange.from(element.getTextRange().getStartOffset() + startIndex, targetKey.length());
-      holder.newSilentAnnotation(HighlightSeverity.WARNING).range(prefixRange).create();
+    TextRange prefixRange = TextRange.from(element.getTextRange().getStartOffset() + startIndex, targetKey.length());
+    holder.newSilentAnnotation(HighlightSeverity.WARNING).range(prefixRange).create();
   }
-
 }

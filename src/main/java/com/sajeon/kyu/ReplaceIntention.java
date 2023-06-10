@@ -1,11 +1,8 @@
-package k.shin.domaindoma;
+package com.sajeon.kyu;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.codeInsight.intention.HighPriorityAction;
-import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInsight.intention.impl.BaseIntentionAction;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ex.QuickFixAction;
 import com.intellij.codeInspection.util.IntentionFamilyName;
 import com.intellij.codeInspection.util.IntentionName;
 import com.intellij.lang.javascript.psi.JSFile;
@@ -17,7 +14,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiIdentifier;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,23 +37,23 @@ class ReplaceIntention extends BaseIntentionAction implements HighPriorityAction
 
     @Override
     public boolean isAvailable(Project project, Editor editor, PsiFile file) {
-//        System.out.println("file: " + file);
-//        System.out.println("fileName: " + PsiTreeUtil.findFirstParent(file.findElementAt(editor.getCaretModel().getOffset()), false, element -> true));
         PsiElement position = PsiTreeUtil.findFirstParent(file.findElementAt(editor.getCaretModel().getOffset()), false, element -> element instanceof PsiIdentifier || element instanceof JSFile || element instanceof LeafPsiElement);
         if (position == null) {
             return false;
         }
 
+
         String key = position.getText();
-//        System.out.println("key: " + key);
         ObjectMapper mapper = new ObjectMapper();
         try {
             Map<String, String> object = mapper.readValue(FileUtil.loadFile(new File(project.getBasePath() + "/preset.json")), Map.class);
             Set<String> entry = object.keySet();
-//            System.out.println("entry: " + entry);
-            long number = entry.stream().filter(entryKey -> key.contains(entryKey)).count();
-//            System.out.println("number" + number);
-            return number > 0;
+            Optional<String> targetKey = entry.stream().filter(entryKey -> key.contains(entryKey)).findFirst();
+            if (targetKey.isEmpty()) return false;
+            String value = object.get(targetKey.get());
+            SharedState.getInstance().setFrom(key);
+            SharedState.getInstance().setTo(value);
+            return true;
         } catch (IOException e) {
             return false;
         }
@@ -66,6 +62,11 @@ class ReplaceIntention extends BaseIntentionAction implements HighPriorityAction
     private void replaceText(@NotNull Project project, Editor editor, PsiFile file) {
         PsiElement position = PsiTreeUtil.findFirstParent(file.findElementAt(editor.getCaretModel().getOffset()), false, element -> element instanceof PsiElement);
         String key = position.getText();
+
+        if (key.equals(SharedState.getInstance().getFrom())) {
+            editor.getDocument().replaceString(position.getTextOffset(), position.getTextOffset() + position.getTextLength(), SharedState.getInstance().getTo());
+            return;
+        }
 
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -79,19 +80,6 @@ class ReplaceIntention extends BaseIntentionAction implements HighPriorityAction
             return;
         }
     }
-
-//    @Override
-//    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
-//                // call replaceText method
-//        PsiFile file = descriptor.getPsiElement().getContainingFile();
-//        Editor editor = PsiUtilBase.findEditor(file);
-//        replaceText(project, editor, file);
-//    }
-
-//    @Override
-//    public boolean isHighPriority() {
-//        return true;
-//    }
 
     @Override
     public void invoke(@NotNull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
