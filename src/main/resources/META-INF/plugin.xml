@@ -2,7 +2,6 @@
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>com.domaindoma.kyu</id>
-
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>DomainDoma</name>
@@ -23,12 +22,16 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
+    <depends>org.jetbrains.kotlin</depends>
     <depends>JavaScript</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <annotator language="JAVA" implementationClass="k.shin.domaindoma.DictionaryAnnotator"/>
-        <intentionAction >
-            <className>k.shin.domaindoma.Intention</className>
+        <intentionAction>
+            <className>k.shin.domaindoma.ReplaceIntention</className>
         </intentionAction>
+        <annotator language="JAVA" implementationClass="k.shin.domaindoma.JavaAnnotator"/>
+        <annotator language="JavaScript" implementationClass="k.shin.domaindoma.JSAnnotator" />
+        <annotator language="kotlin" implementationClass="k.shin.domaindoma.KtAnnotator" />
+
     </extensions>
 </idea-plugin>

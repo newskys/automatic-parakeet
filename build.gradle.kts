@@ -24,7 +24,7 @@ java {
 intellij {
     version.set("2022.1.4")
     type.set("IU")
-    plugins.set(listOf("com.intellij.java", "JavaScript"))
+    plugins.set(listOf("com.intellij.java", "JavaScript", "org.jetbrains.kotlin"))
 }
 
 tasks {
