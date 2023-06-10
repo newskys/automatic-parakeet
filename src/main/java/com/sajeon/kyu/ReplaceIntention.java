@@ -21,12 +21,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 
 class ReplaceIntention extends BaseIntentionAction implements HighPriorityAction {
     @Override
     public @IntentionName @NotNull String getText() {
+//        ResourceBundle resourceBundle = ResourceBundle.getBundle("lang");
+        if (SharedState.getInstance().getFrom() != null && SharedState.getInstance().getTo() != null) {
+//        String intentionText = resourceBundle.getString("IntentionText");
+//        return String.format(intentionText, SharedState.getInstance().getFrom(), SharedState.getInstance().getTo());
+//            return "Replace with " + SharedState.getInstance().getTo();
+            return "Replace with " + SharedState.getInstance().getTo();
+        }
+//        return resourceBundle.getString("IntentionTextDefault");
         return "Replace with preset value";
     }
 
@@ -73,7 +82,7 @@ class ReplaceIntention extends BaseIntentionAction implements HighPriorityAction
             Map<String, String> object = mapper.readValue(FileUtil.loadFile(new File(project.getBasePath() + "/preset.json")), Map.class);
             Set<String> entry = object.keySet();
             Optional<String> targetKey = entry.stream().filter(entryKey -> key.contains(entryKey)).findFirst();
-            if (targetKey == null || targetKey.isEmpty()) return;
+            if (targetKey.isEmpty()) return;
             String value = object.get(targetKey.get());
             editor.getDocument().replaceString(position.getTextOffset(), position.getTextOffset() + position.getTextLength(), key.replace(targetKey.get(), value));
         } catch (IOException e) {
